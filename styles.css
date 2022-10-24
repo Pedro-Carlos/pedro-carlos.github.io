@@ -1,0 +1,223 @@
+body{
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-image:radial-gradient(#425F57, #B3FFAE);
+}
+
+/*Main*/
+.main{
+  background-image: url("images/system.png");
+  height: 920px;
+  background-size: cover;
+  background-position: center;
+}
+
+.main-text p{
+  text-align: center;
+  padding: 25px 50px;
+  padding-bottom: 0;
+  font-weight: bold;
+  font-size:x-large;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  font-family: 'Times New Roman', serif;
+}
+
+.main-text a{
+  text-decoration: none;
+}
+
+.main h1{
+  font-family: 'Times New Roman', serif;
+  text-align: center;
+  padding-top: 250px;
+  color: white;
+  font-size: 70px;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+/*Assigments*/
+#Assigments{
+  font-family: 'Times New Roman', serif;
+  padding: 25px 25px;
+  color: white;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+
+}
+
+.carousel .carousel-item {
+  transition-duration: 3s;
+}
+
+.carousel-item{
+  text-align: center;
+  min-height: 300px;
+  padding-top: 20px;
+}
+
+.modal-dialog{
+  height: 80vh;
+}
+
+.modal-content{
+  height: 80vh;
+}
+.modal-body{
+  height: 80vh;
+}
+
+.GDPedroC{
+  background-image: url("images/assigments/carControls.jpg");
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.BDPedroC{
+  background-image: url("images/assigments/USB-A.jpg");
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.GDPedroR{
+  background-image: url("images/assigments/carControls.jpg");
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.BDPedroR{
+  background-image: url("images/assigments/USB-A.jpg");
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.GDAnnemarie{
+  background-image: url("images/assigments/carControls.jpg");
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.BDAnnemarie{
+  background-image: url("images/assigments/USB-A.jpg");
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.GDVasco{
+  background-image: url("images/assigments/carControls.jpg");
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.BDVasco{
+  background-image: url("images/assigments/USB-A.jpg");
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.carousel-text{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/*Project*/
+#Project{
+  font-family: 'Times New Roman', serif;
+  color: white;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  padding: 25px 25px;
+}
+
+.Stage1Image{
+  background-image: url("images/project/logo.jpg");
+  height: 400px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+.Stage2Image{
+  background-image: url("images/project/logo.jpg");
+  height: 400px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.Stage3Image{
+  background-image: url("images/project/stage3.png");
+  height: 400px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
+/*Group*/
+.elements{
+  text-align: center;
+}
+
+.elementPhoto{
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 2px solid rgb(0, 0, 0);
+
+}
+
+.image{
+  padding-bottom: 20px;
+}
+
+#Group_22{
+  font-family: 'Times New Roman', serif;
+  color: white;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  padding: 25px 25px;
+}
+
+.Group22 h1{
+  padding-bottom: 25px;
+}
+
+
+.button{
+  border-radius: 10px;
+}
+
+.button {
+  width: 100px;
+  height: 40px;
+  font-family: 'Times New Roman', serif;
+  background-color: #539481; 
+  border: 2px solid #425F57;
+}
+
+.button:hover {
+  font-family: 'Times New Roman', serif;
+  scale: 1.1;
+  transition: 1s;
+  background-color: #425F57;
+  color: white;
+}
+
+.carousel-control-prev-icon {
+  background-image: url("images/arrow.png");
+}
+.carousel-control-next-icon {
+  transform: rotate(180deg);
+  background-image: url("images/arrow.png");
+}
+
+.separator{
+  background-color: black;
+}
