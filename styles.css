@@ -265,3 +265,12 @@ body{
 .stage5{
   height: 100%;
 }
+
+.Stage5Image{
+  background-image: url("utilities/project/NoTo.png");
+  height: 400px;
+  border: 2px solid black;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
