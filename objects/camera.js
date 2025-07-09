@@ -10,8 +10,8 @@ function createCamera(scene, canvas) {
     camera.upperBetaLimit = Math.PI - 0.5;
 
     // left right limit
-    camera.lowerAlphaLimit = -Math.PI + 0.5;
-    camera.upperAlphaLimit = -0.5;    
+/*     camera.lowerAlphaLimit = -Math.PI + 0.5;
+    camera.upperAlphaLimit = -0.5;    */ 
 
     // zoom in and out limit
     camera.lowerRadiusLimit = 5;

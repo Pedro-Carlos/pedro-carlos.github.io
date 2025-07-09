@@ -1,7 +1,7 @@
 function createCorkboard(scene) {
     // Create the corkboard plane
-    const boardWidth = 30; 
-    const boardHeight = 20;
+    const boardWidth = 40; 
+    const boardHeight = 30;
     const frameThickness = 0.5;
     const frameDepth = 0.1;
 
@@ -10,14 +10,14 @@ function createCorkboard(scene) {
 
     // Create cork material
     const corkMaterial = new BABYLON.StandardMaterial("corkMaterial", scene);
-    corkMaterial.diffuseTexture = new BABYLON.Texture("textures/cork.jpg", scene);
+    corkMaterial.diffuseTexture = new BABYLON.Texture("./assets/textures/cork.jpg", scene);
     corkMaterial.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1); // Reduce shininess
     corkMaterial.backFaceCulling = false; // Show texture on both sides if needed
     corkboard.material = corkMaterial;
 
 
     const frameMaterial = new BABYLON.StandardMaterial("frameMaterial", scene);
-    frameMaterial.diffuseTexture = new BABYLON.Texture("textures/wood.png", scene);
+    frameMaterial.diffuseTexture = new BABYLON.Texture("./assets/textures/wood.png", scene);
     frameMaterial.specularColor = new BABYLON.Color3(0.2, 0.1, 0.05);
 
     // Top frame piece

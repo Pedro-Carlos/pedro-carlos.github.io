@@ -20,22 +20,24 @@ function connectPinsWithRope(pinA, pinB, scene, options = {}) {
     // Ensure pins have physics impostors
     if (!pinMeshA.physicsImpostor) {
         console.warn(`Pin ${pinA.name} does not have a physics impostor. Rope will not attach correctly.`);
-        pinMeshA.physicsImpostor = new BABYLON.PhysicsImpostor(pinMeshA, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0 }, scene);
+        pinMeshA.physicsImpostor = new BABYLON.PhysicsImpostor(pinMeshA, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0.1 }, scene);
     }
     if (!pinMeshB.physicsImpostor) {
         console.warn(`Pin ${pinB.name} does not have a physics impostor. Rope will not attach correctly.`);
-        pinMeshB.physicsImpostor = new BABYLON.PhysicsImpostor(pinMeshB, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0 }, scene);
+        pinMeshB.physicsImpostor = new BABYLON.PhysicsImpostor(pinMeshB, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0.1 }, scene);
     }
 
+    // Calculate the center position of each pin based on pin.js structure
+    // Pin dimensions from pin.js: baseSize = 0.2, neckHeight = 0.3, headHeight = 0.1
+    // The neck (center of pin) is at y=0 in pin's local space
     const pinAPosition = pinMeshA.getAbsolutePosition();
     const pinBPosition = pinMeshB.getAbsolutePosition();
 
-    // To attach the rope to the middle of the pin
-    pinAPosition.y = pinAPosition.y - 0.2;
-    pinBPosition.y = pinBPosition.y - 0.2;
-
+    // The pin mesh center is already at the geometric center of the merged mesh
+    // No need to adjust y position as the rope should connect to the actual center
+    
     // Define the number of segments for the rope
-    const ropeSegments = 15; // More segments = smoother curve, more computation
+    const ropeSegments = 20; // More segments = smoother curve, more computation
     const ropePathPoints = [];
 
     // Calculate points along the path from pin to pin
