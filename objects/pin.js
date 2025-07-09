@@ -1,4 +1,4 @@
- function createPin(scene, name, position) {
+ function createComplexPin(scene, name, position) {
     // Define dimensions relative to a base size for easier scaling
     const baseSize = 0.2; // Base diameter for the neck
     const headDiameter = baseSize * 2;
@@ -51,6 +51,9 @@
     // Apply the material to the merged mesh
     pin.material = pinMaterial;
 
+    // Add physics impostor to the actual pin mesh (not the pivot node)
+    pin.physicsImpostor = new BABYLON.PhysicsImpostor(pin, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0 }, scene);
+
     // Apply rotation around the base of the pin (assuming the pivot is at the base of the neck/top of the tip)
     // To rotate around the base, we might need to adjust the pivot or use a parent node.
     // For simplicity, let's apply rotation directly and assume the mesh is created such that
@@ -67,8 +70,8 @@
     pivotNode.rotation.z = (-Math.PI / 2) + (Math.random() * 0.5);
     pivotNode.rotation.y = Math.PI / 2 - (Math.random() * 0.3);
 
-    // If you need physics, add the impostor to the parent node or handle it based on your physics setup
-    // pin.physicsImpostor = new BABYLON.PhysicsImpostor(pin, BABYLON.PhysicsImpostor.MeshImpostor, { mass: 0 }, scene); // MeshImpostor is more accurate for complex shapes
+    // Store reference to the pin mesh for physics operations
+    pivotNode.pinMesh = pin;
 
     return pivotNode; // Return the pivot node so you can manipulate the pin's position and rotation easily
 }

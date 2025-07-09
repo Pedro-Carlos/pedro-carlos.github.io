@@ -14,22 +14,8 @@ window.addEventListener('DOMContentLoaded', function(){
             scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), ammoPlugin);
             console.log("Physics engine enabled with Ammo.js.");
 
-            // Add a camera to the scene and attach it to the canvas
-            const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2, 40, BABYLON.Vector3.Zero(), scene);
-            camera.attachControl(canvas, true);
-            // Prevent camera from going below the board
-            //up bottom limit
-            camera.lowerBetaLimit = 0.5;
-            camera.upperBetaLimit = Math.PI - 0.5;
-
-            //left right limit
-            camera.lowerAlphaLimit = -Math.PI + 0.5;
-            camera.upperAlphaLimit = -0.5;    
-
-            //zoom in and out limit
-            camera.lowerRadiusLimit = 5;
-            camera.upperRadiusLimit = 40;
-            camera.wheelDeltaPercentage = 0.01;
+            // Create and configure the camera
+            const camera = createCamera(scene, canvas);
 
             // Add a light to the scene
             const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
@@ -53,7 +39,21 @@ window.addEventListener('DOMContentLoaded', function(){
             }
 
             // Create pins and connecting strings
-            const pinData = createPinsAndStrings(scene, 5, corkboardInfo, photoInfo); // Create 5 pins
+            //const pinData = createPinsAndStrings(scene, 5, corkboardInfo, photoInfo); // Create 5 pins
+
+            // Example of using the new connectPinsWithRope function
+            // Let's create two more pins and connect them
+            const pinA = createComplexPin(scene, "pin_A", new BABYLON.Vector3(-3, -2, -0.1));
+            const pinB = createComplexPin(scene, "pin_B", new BABYLON.Vector3(3, -2, -0.1));
+            
+            // Connect the two new pins with a blue rope
+            connectPinsWithRope(pinA, pinB, scene);
+            
+            // You can also connect one of the new pins to an existing pin from pinData
+/*                 if (pinData.pins.length > 0) {
+                    connectPinsWithRope(pinA, pinData.pins[0], scene, { color: new BABYLON.Color3(0, 1, 0) }); // Green rope
+                } */
+
 
             // Register a render loop to repeatedly render the scene
             engine.runRenderLoop(function () {
