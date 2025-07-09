@@ -28,7 +28,6 @@ function createCamera(scene, canvas) {
     
     // Track control states
     let isCtrlPressed = false;
-    let isTouchActive = false;
     let isFastMode = false;
     
     // Mobile device orientation variables
@@ -38,15 +37,19 @@ function createCamera(scene, canvas) {
     let lastBeta = null;
     let orientationSensitivity = 0.02; // Adjust this to change gyroscope sensitivity
     
+    // Touch panning variables
+    let lastTouchX = null;
+    let lastTouchY = null;
+    let touchPanSensitivity = 0.1; // Adjust this to change touch pan sensitivity
+    
     // Function to update camera speed based on current state
     function updateCameraSpeed() {
-        const shouldBeFast = isCtrlPressed || isTouchActive;
-        if (shouldBeFast && !isFastMode) {
+        if (isCtrlPressed && !isFastMode) {
             isFastMode = true;
             camera.wheelDeltaPercentage = normalWheelSpeed * fastMultiplier;
             camera.angularSensibilityX = normalRotationSpeed / fastMultiplier;
             camera.angularSensibilityY = normalRotationSpeed / fastMultiplier;
-        } else if (!shouldBeFast && isFastMode) {
+        } else if (!isCtrlPressed && isFastMode) {
             isFastMode = false;
             camera.wheelDeltaPercentage = normalWheelSpeed;
             camera.angularSensibilityX = normalRotationSpeed;
@@ -77,26 +80,51 @@ function createCamera(scene, canvas) {
         }
     });
     
-    // Mobile touch controls
+    // Mobile touch panning controls
     canvas.addEventListener('touchstart', (event) => {
-        if (!isTouchActive) {
-            isTouchActive = true;
-            updateCameraSpeed();
+        if (event.touches.length === 1) {
+            // Single touch for panning
+            const touch = event.touches[0];
+            lastTouchX = touch.clientX;
+            lastTouchY = touch.clientY;
+            event.preventDefault();
+        }
+    });
+    
+    canvas.addEventListener('touchmove', (event) => {
+        if (event.touches.length === 1 && lastTouchX !== null && lastTouchY !== null) {
+            const touch = event.touches[0];
+            const deltaX = touch.clientX - lastTouchX;
+            const deltaY = touch.clientY - lastTouchY;
+            
+            // Convert screen movement to world movement
+            // Calculate movement direction relative to camera orientation
+            const cameraDirection = camera.getForwardRay().direction;
+            const cameraRight = BABYLON.Vector3.Cross(cameraDirection, BABYLON.Vector3.Up()).normalize();
+            const cameraUp = BABYLON.Vector3.Cross(cameraRight, cameraDirection).normalize();
+            
+            // Apply movement to camera target
+            const panSpeed = touchPanSensitivity * (camera.radius / 40); // Scale with zoom level
+            const horizontalMovement = cameraRight.scale(-deltaX * panSpeed);
+            const verticalMovement = cameraUp.scale(deltaY * panSpeed);
+            
+            camera.target.addInPlace(horizontalMovement);
+            camera.target.addInPlace(verticalMovement);
+            
+            lastTouchX = touch.clientX;
+            lastTouchY = touch.clientY;
+            event.preventDefault();
         }
     });
     
     canvas.addEventListener('touchend', (event) => {
-        if (isTouchActive) {
-            isTouchActive = false;
-            updateCameraSpeed();
-        }
+        lastTouchX = null;
+        lastTouchY = null;
     });
     
     canvas.addEventListener('touchcancel', (event) => {
-        if (isTouchActive) {
-            isTouchActive = false;
-            updateCameraSpeed();
-        }
+        lastTouchX = null;
+        lastTouchY = null;
     });
     
     // Device orientation support for mobile gyroscope
@@ -192,9 +220,12 @@ function createCamera(scene, canvas) {
     
     // Initialize mobile features
     if (isMobileDevice()) {
+        // Disable default touch controls on mobile (we'll implement custom touch panning)
+        camera.inputs.removeByType("ArcRotateCameraPointersInput");
+        
         // Show touch controls hint
-        const touchHint = createMobileHint('Touch the screen for faster camera movement');
-        setTimeout(() => showMobileHint(touchHint, 4000), 1000);
+        const touchHint = createMobileHint('Touch and drag to move camera • Tilt device to rotate view');
+        setTimeout(() => showMobileHint(touchHint, 5000), 1000);
         
         // Add a touch prompt for iOS permission (since it requires user interaction)
         const enableOrientationIfNeeded = () => {
