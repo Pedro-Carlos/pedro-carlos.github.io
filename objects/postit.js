@@ -66,6 +66,19 @@ function createPostIt(text, scene, position, width = 1.5, height = 1.5, fontSize
     
     advancedTexture.addControl(textBlock);
 
+
+    const fontFamily = 'Playwrite HU';
+    const font = new FontFaceObserver(fontFamily);
+    
+    font.load().then(() => {
+        console.log(`Font '${fontFamily}' loaded successfully for post-it`);
+        textBlock.fontFamily = `'${fontFamily}', cursive`;
+        textBlock.fontWeight = "400"; 
+        advancedTexture.markAsDirty();
+    }).catch(err => {
+        console.warn(`Font '${fontFamily}' could not be loaded for post-it:`, err);
+    });
+
     // Create post-it object for zoom functionality
     const postItObject = { 
         postItMesh: postItMesh, 

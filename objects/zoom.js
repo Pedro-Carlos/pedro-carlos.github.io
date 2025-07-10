@@ -3,7 +3,6 @@ function createZoomToObject(camera, scene) {
     return function(targetObject, zoomDistance = 15) {
         // Get the target position and calculate perpendicular front view
         let targetPosition;
-        let targetMesh;
         
         if (targetObject.group) {
             // For objects with groups (photos, download buttons)

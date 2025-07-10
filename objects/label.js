@@ -88,7 +88,26 @@ function createLabel(text, scene, position, width = 2, height = 1, pinCount = 1,
             pins.push(pin);
         });
     }
+    
 
+    // Use FontFaceObserver to ensure the font is loaded before applying it
+    const fontFamily = 'Playwrite HU';
+    const font = new FontFaceObserver(fontFamily);
+    
+    // Apply the font when it's loaded
+    font.load().then(() => {
+        console.log(`Font '${fontFamily}' loaded successfully`);
+        
+        // Apply the font to the text block
+        textBlock.fontFamily = `'${fontFamily}', cursive`;
+        textBlock.fontWeight = "300"; // Using weight 300 for a natural handwritten look
+        
+        // Force a refresh of the texture
+        advancedTexture.markAsDirty();
+    }).catch(err => {
+        console.warn(`Font '${fontFamily}' could not be loaded:`, err);
+    });
+    
     // Create label object for zoom functionality
     const labelObject = { 
         buttonPlane: buttonPlane, 
