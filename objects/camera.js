@@ -19,7 +19,7 @@ function createCamera(scene, canvas) {
     
     camera.wheelPrecision = 50;
     camera.pinchPrecision = 700;
-    camera.panningSensibility = isMobileDevice() ? 25 : 200; // Mobile: 25, PC: 500
+    camera.panningSensibility = isMobileDevice() ? 25 : 100; // Mobile: 25, PC: 500
     camera.allowUpsideDown = false;
     camera.useNaturalPinchZoom = true;
     camera.panningInertia = 0.5
