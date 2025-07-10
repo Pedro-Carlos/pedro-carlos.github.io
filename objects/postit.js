@@ -71,7 +71,6 @@ function createPostIt(text, scene, position, width = 1.5, height = 1.5, fontSize
     const font = new FontFaceObserver(fontFamily);
     
     font.load().then(() => {
-        console.log(`Font '${fontFamily}' loaded successfully for post-it`);
         textBlock.fontFamily = `'${fontFamily}', cursive`;
         textBlock.fontWeight = "400"; 
         advancedTexture.markAsDirty();
@@ -95,7 +94,7 @@ function createPostIt(text, scene, position, width = 1.5, height = 1.5, fontSize
         // Add click action for zoom
         postItMesh.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
             BABYLON.ActionManager.OnPickTrigger, 
-            () => zoomToObject(postItObject, 12)
+            () => zoomToObject(postItObject, 15)
         ));
         
         // Add hover effects

@@ -95,9 +95,7 @@ function createLabel(text, scene, position, width = 2, height = 1, pinCount = 1,
     const font = new FontFaceObserver(fontFamily);
     
     // Apply the font when it's loaded
-    font.load().then(() => {
-        console.log(`Font '${fontFamily}' loaded successfully`);
-        
+    font.load().then(() => {        
         // Apply the font to the text block
         textBlock.fontFamily = `'${fontFamily}', cursive`;
         textBlock.fontWeight = "300"; // Using weight 300 for a natural handwritten look

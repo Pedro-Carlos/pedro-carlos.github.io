@@ -95,9 +95,6 @@ function createZoomToObject(camera, scene) {
                     finalZoomDistance,
                     BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
                     null,
-                    () => {
-                        console.log(`Zoomed to object at position: ${targetPosition.toString()}`);
-                    }
                 );
             }
         );
