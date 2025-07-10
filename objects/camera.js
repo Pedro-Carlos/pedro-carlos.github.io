@@ -19,7 +19,7 @@ function createCamera(scene, canvas) {
     
     // Default speeds
     const normalWheelSpeed = 0.01;
-    const normalRotationSpeed = 5000;
+    const normalRotationSpeed = 2000;
     const fastMultiplier = 100;
     
     camera.wheelDeltaPercentage = normalWheelSpeed;
@@ -39,7 +39,7 @@ function createCamera(scene, canvas) {
         const shouldBeFast = isCtrlPressed || (isTouchActive && twoFingersPressed);
         if (shouldBeFast && !isFastMode) {
             isFastMode = true;
-            camera.wheelDeltaPercentage = normalWheelSpeed * fastMultiplier;
+            camera.wheelDeltaPercentage = normalWheelSpeed;
             camera.angularSensibilityX = normalRotationSpeed / fastMultiplier;
             camera.angularSensibilityY = normalRotationSpeed / fastMultiplier;
         } else if (!shouldBeFast && isFastMode) {
