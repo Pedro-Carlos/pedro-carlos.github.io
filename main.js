@@ -49,10 +49,10 @@ window.addEventListener('DOMContentLoaded', function(){
 
         //CREATE SKILLS
         //SKILLS LABEL
-        const skillsLabel = createLabel("SKILLS", scene, new BABYLON.Vector3(-9, 7, -0.01), 4, 1.5, 1, 120);
+        const skillsLabel = createLabel("SKILLS", scene, new BABYLON.Vector3(-9, 7, -0.1), 4, 1.5, 1, 120);
         connectPinsWithRope(photoInfo.pins[0], skillsLabel.pins[0], scene);
         //SOFT SKILLS LABEL
-        const softSkillsLabel = createLabel("SOFT SKILLS", scene, new BABYLON.Vector3(-17, 12, -0.01), 2, 1, 1, 100);
+        const softSkillsLabel = createLabel("SOFT SKILLS", scene, new BABYLON.Vector3(-17, 12, -0.1), 2, 1, 1, 100);
         connectPinsWithRope(skillsLabel.pins[0], softSkillsLabel.pins[0], scene);
         //SOFT SKILLS
         const softSkills = `
@@ -69,7 +69,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
         //HARD SKILLS
         //HARD SKILLS LABEL
-        const hardSkillsLabel = createLabel("HARD SKILLS", scene, new BABYLON.Vector3(-13, -0.7, -0.01), 2, 1, 1, 100);
+        const hardSkillsLabel = createLabel("HARD SKILLS", scene, new BABYLON.Vector3(-13, -0.7, -0.1), 2, 1, 1, 100);
         connectPinsWithRope(hardSkillsLabel.pins[0], skillsLabel.pins[0], scene);
         //PROGRAMMING LANGUAGES PHOTOS
         const languages = [
@@ -93,21 +93,23 @@ window.addEventListener('DOMContentLoaded', function(){
             createPhotoAndFrame(scene, lang.file, 2, 2, lang.pos, 1);
         });
         // SPOKEN LANGUAGES
-        const spokenLanguagesLabel = createLabel("SPOKEN LANGUAGES", scene, new BABYLON.Vector3(-6.5, 4, -0.01), 2, 1, 1, 100);
+        const spokenLanguagesLabel = createLabel("SPOKEN LANGUAGES", scene, new BABYLON.Vector3(-6.5, 4, -0.1), 2, 1, 1, 100);
         connectPinsWithRope(spokenLanguagesLabel.pins[0], skillsLabel.pins[0], scene);
         // SPOKEN LANGUAGES
         const portuguese = createPhotoAndFrame(scene, "assets/flags/pt.webp", 2, 2, new BABYLON.Vector3(-5.2, 1.9, -0.1), 1);
-        createLabel("Native", scene, new BABYLON.Vector3(-5.2, 0.1, -0.01), 2, 1, 1, 140);
+        createLabel("Native", scene, new BABYLON.Vector3(-5.2, 0.1, -0.1), 2, 1, 1, 140);
         const english = createPhotoAndFrame(scene, "assets/flags/uk.webp", 2, 2, new BABYLON.Vector3(-7.7, 1.9, -0.1), 1);
-        createLabel("Upper Intermediate", scene, new BABYLON.Vector3(-7.7, 0.1, -0.01), 2, 1.2, 1, 130);
+        createLabel("Upper Intermediate", scene, new BABYLON.Vector3(-7.7, 0.1, -0.1), 2, 1.2, 1, 130);
         connectPinsWithRope(spokenLanguagesLabel.pins[0], portuguese.pins[0], scene);
         connectPinsWithRope(spokenLanguagesLabel.pins[0], english.pins[0], scene);
 
         // EDUCATION
-        const educationLabel = createLabel("EDUCATION", scene, new BABYLON.Vector3(-5, 13, -0.01), 4.5, 1.5, 2, 120);
+        const educationLabel = createLabel("EDUCATION", scene, new BABYLON.Vector3(-5, 13, -0.1), 4.5, 1.5, 2, 120);
         connectPinsWithRope(educationLabel.pins[0], skillsLabel.pins[0], scene);
         connectPinsWithRope(educationLabel.pins[0], photoInfo.pins[0], scene);
-        createPhotoAndFrame(scene, "assets/logos/novaLogo_white_bg.webp", 1.2, 1, new BABYLON.Vector3(-2.5, 12, -0.1), 1);
+        createPhotoAndFrame(scene, "assets/logos/novaLogo_white_bg.webp", 1.2, 1, new BABYLON.Vector3(-2.5, 12, -0.1), 1, () => {
+            window.open("https://www.fct.unl.pt/", "_blank");
+        });
         const educationInfo = `
     • Master of Computer Science and Engineering (2022 - 2025)
     • Bachelor of Computer Science and Engineering (2019 - 2022)`;
@@ -116,7 +118,7 @@ window.addEventListener('DOMContentLoaded', function(){
         connectPinsWithRope(educationLabel.pins[1], educationInfoPin, scene);
 
         // ABOUT ME
-        const aboutMeLabel = createLabel("ABOUT ME", scene, new BABYLON.Vector3(10, 10, -0.01), 4.5, 1.5, 1, 120);
+        const aboutMeLabel = createLabel("ABOUT ME", scene, new BABYLON.Vector3(10, 10, -0.1), 4.5, 1.5, 1, 120);
         connectPinsWithRope(aboutMeLabel.pins[0], photoInfo.pins[1], scene);
         const aboutMeInfo = `
 • Experience:
@@ -134,7 +136,7 @@ Bouldering
 DIY mechanics and electronics
             `;
         createPostIt(aboutMeInfo, scene, new BABYLON.Vector3(8, 3.5, -0.1), 6, 9, 34, true);
-        const contactsLabel = createLabel("CONTACTS", scene, new BABYLON.Vector3(15.5, 7, -0.01), 2, 1, 1, 100);
+        const contactsLabel = createLabel("CONTACTS", scene, new BABYLON.Vector3(15.5, 7, -0.1), 2, 1, 1, 100);
         connectPinsWithRope(contactsLabel.pins[0], aboutMeLabel.pins[0], scene);
         createPhotoAndFrame(scene, "assets/logos/linkedin.png", 1.7, 1.7, new BABYLON.Vector3(15.5, 5, -0.1), 1, () => {
             window.open("https://www.linkedin.com/in/pedro-carlos-028417268/", "_blank");
@@ -145,16 +147,16 @@ DIY mechanics and electronics
         createPhotoAndFrame(scene, "assets/logos/github2.png", 1.7, 1.7, new BABYLON.Vector3(18, 5.3, -0.1), 1, () => {
             window.open("https://github.com/Pedro-Carlos", "_blank");
         });
-        createLabel("pedrocarlos650@gmail.com", scene, new BABYLON.Vector3(15.5, 3, -0.01), 6, 1.5, 1, 65);
+        createLabel("pedrocarlos650@gmail.com", scene, new BABYLON.Vector3(15.5, 3, -0.1), 6, 1.5, 1, 65);
 
         // EXPERIENCE
-        const experienceLabel = createLabel("EXPERIENCE", scene, new BABYLON.Vector3(-0.5, -2, -0.01), 4.5, 1.5, 1, 120);
+        const experienceLabel = createLabel("EXPERIENCE", scene, new BABYLON.Vector3(-0.5, -2, -0.1), 4.5, 1.5, 1, 120);
         connectPinsWithRope(experienceLabel.pins[0], photoInfo.pins[0], scene);
-        const ai4chef = createPhotoAndFrame(scene, "assets/logos/ai4chef.png", 4.5, 2, new BABYLON.Vector3(-3, -5, -0.01), 1, () => {
+        const ai4chef = createPhotoAndFrame(scene, "assets/logos/ai4chef.png", 4.5, 2, new BABYLON.Vector3(-3, -5, -0.1), 1, () => {
             window.open("https://ai4chef.com/", "_blank");
         });
         connectPinsWithRope(experienceLabel.pins[0], ai4chef.pins[0], scene);
-        createLabel("Part-Time Full-Stack Developer (2023 - Present)", scene, new BABYLON.Vector3(-3, -7.5, -0.01), 6, 2, 2, 70);
+        createLabel("Part-Time Full-Stack Developer (2023 - Present)", scene, new BABYLON.Vector3(-3, -7.5, -0.1), 6, 2, 2, 70);
         const ai4chefExperience = `
 • Using React and TypeScript for the frontend.
 
@@ -163,26 +165,26 @@ DIY mechanics and electronics
 • Emphasis on data analytics dashboards.
 
 • Actively maintaining and enhancing key features.`;
-        createPostIt(ai4chefExperience, scene, new BABYLON.Vector3(-3, -11.5, -0.01), 7, 5, 45, true);
+        createPostIt(ai4chefExperience, scene, new BABYLON.Vector3(-3, -11.5, -0.1), 7, 5, 45, true);
 
-        const visionD = createPhotoAndFrame(scene, "assets/logos/visionD.webp", 4, 2, new BABYLON.Vector3(5, -5, -0.01), 1, () => {
+        const visionD = createPhotoAndFrame(scene, "assets/logos/visionD.webp", 4, 2, new BABYLON.Vector3(5, -5, -0.1), 1, () => {
             window.open("https://www.visiond.pt/", "_blank");
         });
         connectPinsWithRope(experienceLabel.pins[0], visionD.pins[0], scene);
-        createLabel("Part-Time Full-Stack Developer (2023 - 2024)", scene, new BABYLON.Vector3(5, -7.5, -0.01), 6, 2, 2, 70);
+        createLabel("Part-Time Full-Stack Developer (2023 - 2024)", scene, new BABYLON.Vector3(5, -7.5, -0.1), 6, 2, 2, 70);
         const visionDExperience = `
 • Designed and built responsive, dynamic UIs using React, TypeScript, and Next.js.
 
 • Created custom-styled components with Tailwind CSS.
 
 • Participated in the full software development lifecycle, including deployment and maintenance.`;
-        createPostIt(visionDExperience, scene, new BABYLON.Vector3(5, -11.5, -0.01), 7, 5, 45, true);
+        createPostIt(visionDExperience, scene, new BABYLON.Vector3(5, -11.5, -0.1), 7, 5, 45, true);
 
-        const betacode = createPhotoAndFrame(scene, "assets/logos/betacode.webp", 4.5, 2, new BABYLON.Vector3(13, -5, -0.01), 1, () => {
+        const betacode = createPhotoAndFrame(scene, "assets/logos/betacode.webp", 4.5, 2, new BABYLON.Vector3(13, -5, -0.1), 1, () => {
             window.open("https://www.betacode.tech/", "_blank");
         });
         connectPinsWithRope(experienceLabel.pins[0], betacode.pins[0], scene);
-        createLabel("Betacode | Full-Stack Developer Intern (2022)", scene, new BABYLON.Vector3(13, -7.5, -0.01), 6, 2, 2, 70);
+        createLabel("Betacode | Full-Stack Developer Intern (2022)", scene, new BABYLON.Vector3(13, -7.5, -0.1), 6, 2, 2, 70);
         const betacodeExperience = `
 • Worked with a development team on a full-stack application.
 
@@ -191,7 +193,7 @@ DIY mechanics and electronics
 • Implemented a CMS backend with Strapi.
 
 • Improved proficiency in JavaScript, HTML, and CSS.`;
-        createPostIt(betacodeExperience, scene, new BABYLON.Vector3(13, -11.5, -0.01), 7, 5, 45, true);
+        createPostIt(betacodeExperience, scene, new BABYLON.Vector3(13, -11.5, -0.1), 7, 5, 45, true);
         
         
 

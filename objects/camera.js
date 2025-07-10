@@ -17,103 +17,18 @@ function createCamera(scene, canvas) {
     camera.lowerRadiusLimit = 10;
     camera.upperRadiusLimit = 100;
     
-    // Default speeds
-    const normalWheelSpeed = 0.01;
-    const normalRotationSpeed = 2000;
-    const fastMultiplier = 100;
+    camera.wheelPrecision = 50;
+    camera.pinchPrecision = 700;
+    camera.panningSensibility = isMobileDevice() ? 25 : 200; // Mobile: 25, PC: 500
+    camera.allowUpsideDown = false;
+    camera.useNaturalPinchZoom = true;
+    camera.panningInertia = 0.5
     
-    camera.wheelDeltaPercentage = normalWheelSpeed;
-    camera.angularSensibilityX = normalRotationSpeed;
-    camera.angularSensibilityY = normalRotationSpeed;
-    
-    // Track control states
-    let isCtrlPressed = false;
-    let isTouchActive = false;
-    let isFastMode = false;
-    let twoFingersPressed = false;
-    
+    camera.wheelDeltaPercentage = 0.01;
+    camera.angularSensibilityX = 2000;
+    camera.angularSensibilityY = 2000;
 
     
-    // Function to update camera speed based on current state
-    function updateCameraSpeed() {
-        const shouldBeFast = isCtrlPressed || (isTouchActive && twoFingersPressed);
-        if (shouldBeFast && !isFastMode) {
-            isFastMode = true;
-            camera.wheelDeltaPercentage = normalWheelSpeed;
-            camera.angularSensibilityX = normalRotationSpeed / fastMultiplier;
-            camera.angularSensibilityY = normalRotationSpeed / fastMultiplier;
-        } else if (!shouldBeFast && isFastMode) {
-            isFastMode = false;
-            camera.wheelDeltaPercentage = normalWheelSpeed;
-            camera.angularSensibilityX = normalRotationSpeed;
-            camera.angularSensibilityY = normalRotationSpeed;
-        }
-    }
-    
-    // Desktop keyboard controls
-    window.addEventListener('keydown', (event) => {
-        if (event.ctrlKey && !isCtrlPressed) {
-            isCtrlPressed = true;
-            updateCameraSpeed();
-        }
-    });
-    
-    window.addEventListener('keyup', (event) => {
-        if (!event.ctrlKey && isCtrlPressed) {
-            isCtrlPressed = false;
-            updateCameraSpeed();
-        }
-    });
-    
-    // Handle window blur to reset speed if user switches windows while holding Ctrl
-    window.addEventListener('blur', () => {
-        if (isCtrlPressed) {
-            isCtrlPressed = false;
-            updateCameraSpeed();
-        }
-    });
-    
-    // Mobile touch controls
-    canvas.addEventListener('touchstart', (event) => {
-        if (!isTouchActive) {
-            isTouchActive = true;
-        }
-        
-        // Check if 2 or more fingers are pressed
-        const wasTwoFingersPressed = twoFingersPressed;
-        twoFingersPressed = event.touches.length >= 2;
-        
-        // Update speed if the state changed
-        if (wasTwoFingersPressed !== twoFingersPressed) {
-            updateCameraSpeed();
-        }
-    });
-    
-    canvas.addEventListener('touchend', (event) => {
-        // Check if 2 or more fingers are still pressed
-        const wasTwoFingersPressed = twoFingersPressed;
-        twoFingersPressed = event.touches.length >= 2;
-        
-        // If no touches remain, deactivate touch
-        if (event.touches.length === 0) {
-            isTouchActive = false;
-        }
-        
-        // Update speed if the state changed
-        if (wasTwoFingersPressed !== twoFingersPressed) {
-            updateCameraSpeed();
-        }
-    });
-    
-    canvas.addEventListener('touchcancel', (event) => {
-        if (isTouchActive) {
-            isTouchActive = false;
-            twoFingersPressed = false;
-            updateCameraSpeed();
-        }
-    });
-    
-
     
     // Check if we're on a mobile device
     function isMobileDevice() {
