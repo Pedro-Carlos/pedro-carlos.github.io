@@ -1,5 +1,11 @@
 // Camera setup and configuration
 function createCamera(scene, canvas) {
+    // Check if we're on a mobile device
+    function isMobileDevice() {
+        return window.innerWidth < 1024;
+    }
+    
+        
     // Add a camera to the scene and attach it to the canvas
     const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2, 40, BABYLON.Vector3.Zero(), scene);
     camera.attachControl(canvas, true);
@@ -19,7 +25,7 @@ function createCamera(scene, canvas) {
     
     camera.wheelPrecision = 50;
     camera.pinchPrecision = 700;
-    camera.panningSensibility = isMobileDevice() ? 25 : 100; // Mobile: 25, PC: 500
+    camera.panningSensibility = isMobileDevice() ? 25 : 100; // Mobile: 25, PC: 100
     camera.allowUpsideDown = false;
     camera.useNaturalPinchZoom = true;
     camera.panningInertia = 0.5
@@ -30,11 +36,7 @@ function createCamera(scene, canvas) {
 
     
     
-    // Check if we're on a mobile device
-    function isMobileDevice() {
-        return window.innerWidth < 1024;
-    }
-    
+
     // Mobile UI helpers
     function createMobileHint(message, isPrompt = false) {
         const hint = document.createElement('div');

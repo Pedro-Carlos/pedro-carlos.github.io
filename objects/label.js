@@ -1,4 +1,4 @@
-function createLabel(text, scene, position, width = 2, height = 1, pinCount = 1, fontSize = 120) {
+function createLabel(text, scene, position, width = 2, height = 1, pinCount = 1, fontSize = 120, camera = null) {
     // Create a plane mesh to serve as the background for the button
     const buttonPlane = BABYLON.MeshBuilder.CreatePlane("buttonPlane", { width: width, height: height }, scene);
     buttonPlane.position = position;
@@ -35,7 +35,7 @@ function createLabel(text, scene, position, width = 2, height = 1, pinCount = 1,
     // Create a simple TextBlock with default font first
     const textBlock = new BABYLON.GUI.TextBlock();
     textBlock.text = text;
-    textBlock.color = "#000000"; // Slightly off-black for more natural look
+    textBlock.color = "#000000";
     textBlock.fontSize = fontSize; // Adjusted size for handwriting font
     textBlock.textWrapping = BABYLON.GUI.TextWrapping.WordWrap;
     textBlock.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
@@ -55,27 +55,9 @@ function createLabel(text, scene, position, width = 2, height = 1, pinCount = 1,
     // Add the text to the texture
     advancedTexture.addControl(textBlock);
     
-    // Use FontFaceObserver to ensure the font is loaded before applying it
-    const fontFamily = 'Playwrite HU';
-    const font = new FontFaceObserver(fontFamily);
-    
-    // Apply the font when it's loaded
-    font.load().then(() => {
-        console.log(`Font '${fontFamily}' loaded successfully`);
-        
-        // Apply the font to the text block
-        textBlock.fontFamily = `'${fontFamily}', cursive`;
-        textBlock.fontWeight = "300"; // Using weight 300 for a natural handwritten look
-        
-        // Force a refresh of the texture
-        advancedTexture.markAsDirty();
-    }).catch(err => {
-        console.warn(`Font '${fontFamily}' could not be loaded:`, err);
-    });
-
     // Create pins to secure the label
     const pins = [];
-    const pinOffset = -0.15; // Small offset to position pins slightly in front of the label
+    const pinOffset = -0.15;
     
     if (pinCount === 1) {
         // Single pin at top center
@@ -107,10 +89,44 @@ function createLabel(text, scene, position, width = 2, height = 1, pinCount = 1,
         });
     }
 
-    // Return the plane, text block, and pins
-    return { 
+    // Create label object for zoom functionality
+    const labelObject = { 
         buttonPlane: buttonPlane, 
         textBlock: textBlock, 
         pins: pins
     };
+
+    // Add zoom functionality if camera is provided
+    if (camera) {
+        const zoomToObject = createZoomToObject(camera, scene);
+        
+        // Add action manager for click handling
+        buttonPlane.actionManager = new BABYLON.ActionManager(scene);
+        
+        // Add click action for zoom
+        buttonPlane.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPickTrigger, 
+            () => zoomToObject(labelObject, 30)
+        ));
+        
+        // Add hover effects
+        buttonPlane.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPointerOverTrigger, 
+            function() {
+                planeMaterial.emissiveColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+                scene.getEngine().getInputElement().style.cursor = "pointer";
+            }
+        ));
+        
+        buttonPlane.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPointerOutTrigger, 
+            function() {
+                planeMaterial.emissiveColor = new BABYLON.Color3(0, 0, 0);
+                scene.getEngine().getInputElement().style.cursor = "default";
+            }
+        ));
+    }
+
+    // Return the plane, text block, and pins
+    return labelObject;
 }

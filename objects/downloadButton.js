@@ -1,9 +1,7 @@
-function createDownloadButton(scene, flagImage, pdfPath, position, size = 2) {
+function createDownloadButton(scene, flagImage, pdfPath, position, size = 2, camera = null) {
     const buttonDepth = 0.1;
     // Create the flag image disc (circular)
-    const flagPlane = BABYLON.MeshBuilder.CreateDisc("flagPlane", { 
-        radius: size * 0.4
-    }, scene);
+    const flagPlane = BABYLON.MeshBuilder.CreateDisc("flagPlane", scene);
 
     
     // Create flag material
@@ -20,11 +18,18 @@ function createDownloadButton(scene, flagImage, pdfPath, position, size = 2) {
     buttonGroup.position = position;
     
     // Reset positions to be relative to group
-    flagPlane.position = new BABYLON.Vector3(0, 0, buttonDepth / 2 + 0.01);
-    
+    flagPlane.position = new BABYLON.Vector3(0, 0, 0);
+    flagPlane.rotation.x = Math.PI;
     flagPlane.parent = buttonGroup;
     
-    // Add click functionality for PDF download
+    // Create button object for zoom functionality
+    const buttonObject = {
+        group: buttonGroup,
+        flagPlane: flagPlane,
+        size: size
+    };
+    
+    // Add click functionality for PDF download and zoom
     flagPlane.actionManager = new BABYLON.ActionManager(scene);
     
     const downloadPDF = function() {
@@ -37,10 +42,27 @@ function createDownloadButton(scene, flagImage, pdfPath, position, size = 2) {
         document.body.removeChild(link);
     };
     
-    flagPlane.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
-        BABYLON.ActionManager.OnPickTrigger, 
-        downloadPDF
-    ));
+    if (camera) {
+        const zoomToObject = createZoomToObject(camera, scene);
+        
+        // Create a combined handler for zoom + download
+        const combinedHandler = function() {
+            zoomToObject(buttonObject, 20);
+            // Small delay before download to let zoom animation start
+            setTimeout(downloadPDF, 100);
+        };
+        
+        flagPlane.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPickTrigger, 
+            combinedHandler
+        ));
+    } else {
+        // Fallback: original download behavior
+        flagPlane.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPickTrigger, 
+            downloadPDF
+        ));
+    }
     
     const addHoverEffects = function(mesh) {
         mesh.actionManager.registerAction(new BABYLON.ExecuteCodeAction(
@@ -88,9 +110,5 @@ function createDownloadButton(scene, flagImage, pdfPath, position, size = 2) {
     
     addHoverEffects(flagPlane);
     
-    return {
-        group: buttonGroup,
-        flagPlane: flagPlane,
-        size: size
-    };
+    return buttonObject;
 } 
