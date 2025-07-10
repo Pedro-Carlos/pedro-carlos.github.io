@@ -5,13 +5,14 @@ function createLabel(text, scene, position, width = 2, height = 1, pinCount = 1,
     
     // Add random tilt with triangular distribution (favors smaller angles)
     // Generate two random values and average them for triangular distribution
-    const random1 = (Math.random() * 2) - 1; // Random between -1 and 1
-    const random2 = (Math.random() * 2) - 1; // Random between -1 and 1
-    const triangularRandom = (random1 + random2) / 2; // Average creates triangular distribution
-    const randomTiltDegrees = triangularRandom * 10; // Scale to -10 to 10 degrees
-    const randomTiltRadians = randomTiltDegrees * (Math.PI / 180); // Convert to radians
-    buttonPlane.rotation.z = randomTiltRadians;
-
+    if (pinCount === 1) {
+        const random1 = (Math.random() * 2) - 1; // Random between -1 and 1
+        const random2 = (Math.random() * 2) - 1; // Random between -1 and 1
+        const triangularRandom = (random1 + random2) / 2; // Average creates triangular distribution
+        const randomTiltDegrees = triangularRandom * 10; // Scale to -10 to 10 degrees
+        const randomTiltRadians = randomTiltDegrees * (Math.PI / 180); // Convert to radians
+        buttonPlane.rotation.z = randomTiltRadians;
+    }
     // Add a material to the plane for the label
     const planeMaterial = new BABYLON.StandardMaterial("planeMaterial", scene);
     planeMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1); // White color

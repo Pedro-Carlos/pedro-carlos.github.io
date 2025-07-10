@@ -1,4 +1,4 @@
-function createPhotoAndFrame(scene, photo, width, height, position, pinCount = 1) {
+function createPhotoAndFrame(scene, photo, width, height, position, pinCount = 1, onClick = null) {
     const photoDepth = 0.001; // Slight depth to lift off the board
     const photoFrameThickness = 0.1;
 
@@ -12,11 +12,15 @@ function createPhotoAndFrame(scene, photo, width, height, position, pinCount = 1
     const photoMaterial = new BABYLON.StandardMaterial("photoMaterial", scene);
     photoMaterial.diffuseTexture = new BABYLON.Texture(photo, scene); // Placeholder
     photoMaterial.backFaceCulling = false;
+    photoMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1);
+    photoMaterial.emissiveColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    photoMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
     photoPlane.material = photoMaterial;
 
     const photoFrameMaterial = new BABYLON.StandardMaterial("photoFrameMaterial", scene);
-    photoFrameMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1); // White
-    photoFrameMaterial.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+    photoFrameMaterial.diffuseColor = new BABYLON.Color3(1, 1, 1);
+    photoFrameMaterial.emissiveColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    photoFrameMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
 
     // Create Photo Frame Material
     // Top frame piece
@@ -49,7 +53,7 @@ function createPhotoAndFrame(scene, photo, width, height, position, pinCount = 1
         const random1 = (Math.random() * 2) - 1; // Random between -1 and 1
         const random2 = (Math.random() * 2) - 1; // Random between -1 and 1
         const triangularRandom = (random1 + random2) / 2; // Average creates triangular distribution
-        const randomTiltDegrees = triangularRandom * 10; // Scale to -10 to 10 degrees
+        const randomTiltDegrees = triangularRandom * 7; // Scale to -10 to 10 degrees
         const randomTiltRadians = randomTiltDegrees * (Math.PI / 180); // Convert to radians
         photoGroup.rotation.z = randomTiltRadians;
     }
@@ -59,6 +63,28 @@ function createPhotoAndFrame(scene, photo, width, height, position, pinCount = 1
     bottomFrame.parent = photoGroup;
     leftFrame.parent = photoGroup;
     rightFrame.parent = photoGroup;
+
+    // Add click functionality if onClick callback is provided
+    if (onClick) {
+        // Make the photo clickable by adding action manager
+        photoPlane.actionManager = new BABYLON.ActionManager(scene);
+        
+        // Add click action with visual feedback
+        photoPlane.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function() {
+            onClick();
+        }));
+        
+        // Add hover effect for better UX
+        photoPlane.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function() {
+            photoPlane.material.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+            scene.getEngine().getInputElement().style.cursor = "pointer";
+        }));
+        
+        photoPlane.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOutTrigger, function() {
+            photoPlane.material.emissiveColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+            scene.getEngine().getInputElement().style.cursor = "default";
+        }));
+    }
 
     // Create pins to secure the photo
     const pins = [];

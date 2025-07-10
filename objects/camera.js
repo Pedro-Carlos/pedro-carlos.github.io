@@ -10,17 +10,17 @@ function createCamera(scene, canvas) {
     camera.upperBetaLimit = Math.PI - 0.5;
 
     // left right limit
-/*     camera.lowerAlphaLimit = -Math.PI + 0.5;
-    camera.upperAlphaLimit = -0.5;    */ 
+    camera.lowerAlphaLimit = -Math.PI + 0.5;
+    camera.upperAlphaLimit = -0.5;    
 
     // zoom in and out limit
-    camera.lowerRadiusLimit = 5;
-    camera.upperRadiusLimit = 40;
+    camera.lowerRadiusLimit = 10;
+    camera.upperRadiusLimit = 100;
     
     // Default speeds
     const normalWheelSpeed = 0.01;
     const normalRotationSpeed = 5000;
-    const fastMultiplier = 20; // Make movement 3x faster when Ctrl is pressed or touch is detected
+    const fastMultiplier = 100;
     
     camera.wheelDeltaPercentage = normalWheelSpeed;
     camera.angularSensibilityX = normalRotationSpeed;
@@ -30,12 +30,13 @@ function createCamera(scene, canvas) {
     let isCtrlPressed = false;
     let isTouchActive = false;
     let isFastMode = false;
+    let twoFingersPressed = false;
     
 
     
     // Function to update camera speed based on current state
     function updateCameraSpeed() {
-        const shouldBeFast = isCtrlPressed || isTouchActive;
+        const shouldBeFast = isCtrlPressed || (isTouchActive && twoFingersPressed);
         if (shouldBeFast && !isFastMode) {
             isFastMode = true;
             camera.wheelDeltaPercentage = normalWheelSpeed * fastMultiplier;
@@ -76,13 +77,30 @@ function createCamera(scene, canvas) {
     canvas.addEventListener('touchstart', (event) => {
         if (!isTouchActive) {
             isTouchActive = true;
+        }
+        
+        // Check if 2 or more fingers are pressed
+        const wasTwoFingersPressed = twoFingersPressed;
+        twoFingersPressed = event.touches.length >= 2;
+        
+        // Update speed if the state changed
+        if (wasTwoFingersPressed !== twoFingersPressed) {
             updateCameraSpeed();
         }
     });
     
     canvas.addEventListener('touchend', (event) => {
-        if (isTouchActive) {
+        // Check if 2 or more fingers are still pressed
+        const wasTwoFingersPressed = twoFingersPressed;
+        twoFingersPressed = event.touches.length >= 2;
+        
+        // If no touches remain, deactivate touch
+        if (event.touches.length === 0) {
             isTouchActive = false;
+        }
+        
+        // Update speed if the state changed
+        if (wasTwoFingersPressed !== twoFingersPressed) {
             updateCameraSpeed();
         }
     });
@@ -90,6 +108,7 @@ function createCamera(scene, canvas) {
     canvas.addEventListener('touchcancel', (event) => {
         if (isTouchActive) {
             isTouchActive = false;
+            twoFingersPressed = false;
             updateCameraSpeed();
         }
     });
@@ -98,8 +117,7 @@ function createCamera(scene, canvas) {
     
     // Check if we're on a mobile device
     function isMobileDevice() {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-               (navigator.maxTouchPoints && navigator.maxTouchPoints > 1);
+        return window.innerWidth < 1024;
     }
     
     // Mobile UI helpers
@@ -127,19 +145,40 @@ function createCamera(scene, canvas) {
     
     // Initialize mobile features
     if (isMobileDevice()) {
-        // Show touch controls hints (both messages with 1 second delay)
+
         const hints = [
-            "Touch and drag to change camera angle",
-            "Touch with two fingers and drag to change camera position"
+            "🖱️ Touch and drag to change camera angle",
+            "⚡ Touch with two fingers and drag to change camera position"
         ];
         
-        // Show first message after 1 second
-        const firstHint = createMobileHint(hints[0]);
-        setTimeout(() => showMobileHint(firstHint, 4000), 1000);
+        const hintDuration = 4000; // 4 seconds display time
+        const fadeOutDuration = 300; // fade-out animation duration
         
-        // Show second message after 2 seconds (1 second after the first)
-        const secondHint = createMobileHint(hints[1]);
-        setTimeout(() => showMobileHint(secondHint, 4000), 2000);
+        hints.forEach((hint, index) => {
+            const hintElement = createMobileHint(hint);
+            // Calculate delay: first hint starts at 1s, each subsequent hint starts after previous one completely finishes
+            const delay = 1000 + (index * (hintDuration + fadeOutDuration));
+            setTimeout(() => showMobileHint(hintElement, hintDuration), delay);
+        });
+    } else {
+        // Desktop UI
+        const hints = [
+            "💡 Scroll to zoom in/out",
+            "🖱️ Left click + drag to rotate camera",
+            "⚡ Hold Ctrl + left click + drag to change camera position",
+            "🎯 Use mouse wheel for precise zoom control"
+        ];
+        
+        const hintDuration = 4000; // 4 seconds display time
+        const fadeOutDuration = 300; // fade-out animation duration
+        
+        // Show hints sequentially - each starts after the previous one completely disappears
+        hints.forEach((hint, index) => {
+            const hintElement = createMobileHint(hint);
+            // Calculate delay: first hint starts at 1s, each subsequent hint starts after previous one completely finishes
+            const delay = 1000 + (index * (hintDuration + fadeOutDuration));
+            setTimeout(() => showMobileHint(hintElement, hintDuration), delay);
+        });
     }
 
     return camera;

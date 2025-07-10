@@ -45,10 +45,3 @@ html, body {
 .mobile-hint.gyro-prompt:hover {
     background: rgba(52, 152, 219, 1);
 }
-
-/* Hide mobile hints on desktop */
-@media (min-width: 768px) {
-    .mobile-hint {
-        display: none;
-    }
-} 

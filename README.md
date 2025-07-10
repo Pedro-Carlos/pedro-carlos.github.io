@@ -1,140 +1,161 @@
 # Pedro Carlos - 3D Interactive Portfolio
 
-A unique and immersive 3D portfolio website built with Babylon.js that presents professional information in an engaging virtual corkboard environment.
+> A creative 3D cork board portfolio showcasing my professional journey as a Computer Science student and Full-Stack Developer.
 
-## 🎯 Overview
+## 🌟 Live Demo
 
-This interactive portfolio breaks away from traditional flat web design by creating a realistic 3D corkboard where skills, programming languages, and personal information are displayed as physical objects - photos, labels, post-it notes, and pins - all connected with virtual rope in a visually stunning environment.
+Visit the live portfolio at: [pedro-carlos.github.io](https://pedro-carlos.github.io)
+
+## 🎯 About
+
+This interactive portfolio is designed as a virtual cork board where visitors can explore my professional background, skills, and experience through an immersive 3D environment. The project demonstrates both my technical skills and creative approach to web development.
 
 ## ✨ Features
 
-### 🎮 Interactive 3D Environment
-- **Physics-enabled scene** using Ammo.js for realistic object interactions
-- **Virtual corkboard** with cork texture and wooden frame
-- **Dynamic camera controls** for exploring the 3D space
-- **Realistic lighting** and shadows
+### 🎮 Interactive 3D Elements
+- **3D Cork Board**: Realistic cork board with wooden frame and physics simulation
+- **Interactive Navigation**: Mouse/touch controls for camera movement
+- **Physics Engine**: Ammo.js integration for realistic object interactions
+- **Mobile Support**: Gyroscope controls for mobile devices
 
-### 📸 Portfolio Elements
-- **Profile photo** with realistic frame and pin attachment
-- **Programming language showcase** featuring logos of:
-  - Java, JavaScript, HTML
-  - C, Go, Assembly
-  - SQL, Erlang, Rust
-  - OCaml, Python
-  - And many more!
-- **Skills display** organized into soft and hard skills
-- **Post-it notes** for detailed skill descriptions
-- **Connected elements** using virtual rope between related items
+### 📋 Portfolio Content
+- **Professional Photo**: Personal introduction with visual appeal
+- **Skills Display**: 
+  - Programming languages with visual logos
+  - Soft skills overview
+  - Spoken languages with flag indicators
+- **Education**: University information with institution branding
+- **Work Experience**: Detailed breakdown of professional roles
+- **Contact Information**: Direct links to LinkedIn and GitHub profiles
 
-### 🎨 Visual Design
-- **Authentic textures** including cork, wood, and tape
-- **Realistic pin physics** with natural tilting for single-pin items
-- **Handwritten-style fonts** for labels and text
-- **White photo frames** with proper depth and materiality
+### 🎨 Creative Elements
+- **Post-it Notes**: Information displayed on realistic sticky notes
+- **Pins & Ropes**: Visual connections between related content sections
+- **Download Buttons**: Interactive CV download in Portuguese and English
+- **Clickable Links**: Direct navigation to social media profiles and company websites
 
-## 🛠️ Technical Stack
+## 🛠️ Technology Stack
 
-- **Frontend Framework**: Pure JavaScript with Babylon.js
-- **3D Engine**: Babylon.js
-- **Physics Engine**: Ammo.js (WebAssembly)
-- **Styling**: CSS3
-- **Fonts**: Google Fonts (Playwrite HU)
+### Frontend
+- **HTML5**: Semantic structure and canvas element
+- **CSS3**: Responsive styling and mobile optimizations
+- **JavaScript**: Interactive functionality and object management
 
-## 🏗️ Architecture
+### 3D Graphics & Physics
+- **Babylon.js**: 3D rendering engine and scene management
+- **Ammo.js**: Physics simulation for realistic interactions
+- **Babylon.js GUI**: User interface elements within the 3D scene
 
-### Core Components
-- `main.js` - Scene initialization and physics setup
-- `objects/` - Modular 3D object creators:
-  - `corkboard.js` - Main background surface
-  - `photo.js` - Framed images with pin attachments  
-  - `pin.js` - Interactive pin objects
-  - `label.js` - Text labels with frames
-  - `postit.js` - Sticky note elements
-  - `rope.js` - Connecting rope between elements
-  - `camera.js` - Camera controls and movement
+### External Resources
+- **Google Fonts**: Playwrite HU font family
+- **FontFace Observer**: Font loading management
+- **WebGL**: Hardware-accelerated 3D graphics
 
-### Asset Organization
-- `assets/logos/` - Programming language logos (100+ languages)
-- `assets/textures/` - Material textures (cork, wood, tape)
-- `assets/pedro.webp` - Profile photo
+## 🏗️ Project Structure
+
+```
+pedro-carlos.github.io/
+├── index.html              # Main HTML file
+├── main.js                 # Core application logic
+├── style.css               # Global styles
+├── objects/                # 3D object components
+│   ├── camera.js           # Camera controls and movement
+│   ├── corkboard.js        # Main cork board creation
+│   ├── downloadButton.js   # CV download functionality
+│   ├── label.js            # Text labels and signs
+│   ├── photo.js            # Photo frames and images
+│   ├── pin.js              # Cork board pins
+│   ├── postit.js           # Post-it note elements
+│   └── rope.js             # Connecting ropes between pins
+├── assets/                 # Static resources
+│   ├── CV/                 # Resume files (PT/EN)
+│   ├── flags/              # Country flags
+│   ├── logos/              # Technology and company logos
+│   ├── textures/           # 3D textures (cork, wood)
+│   └── pedro.webp          # Personal photo
+└── README.md               # Project documentation
+```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 - Modern web browser with WebGL support
-- Local web server (for proper asset loading)
+- Local web server (for development)
 
-### Installation
+### Installation & Setup
 
-1. Clone the repository:
-```bash
-git clone https://github.com/pedro-carlos/pedro-carlos.github.io.git
-cd pedro-carlos.github.io
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/pedro-carlos/pedro-carlos.github.io.git
+   cd pedro-carlos.github.io
+   ```
 
-2. Serve the files using a local web server:
-```bash
-# Using Python
-python -m http.server 8000
+2. **Serve locally**
+   ```bash
+   # Using Python 3
+   python -m http.server 8000
+   
+   # Using Node.js
+   npx http-server
+   
+   # Using PHP
+   php -S localhost:8000
 
-# Using Node.js http-server
-npx http-server
+   # Using Visual Studio Live Server
+   ```
 
-# Using Live Server extension in VS Code
-# Right-click index.html → "Open with Live Server"
-```
+3. **Open in browser**
+   Navigate to `http://localhost:8000`
 
-3. Open your browser and navigate to `http://localhost:8000`
+### Development
 
-## 🎮 Usage
+The project uses vanilla JavaScript with modular object files. Each component in the `objects/` directory is responsible for creating specific 3D elements:
 
-- **Mouse/Trackpad**: Navigate around the 3D scene
-- **Scroll**: Zoom in/out
-- **Drag**: Rotate camera view
-- **Interactive Elements**: Explore the corkboard to discover skills and technologies
+- Modify `main.js` for overall scene setup and object positioning
+- Edit individual object files for specific component behavior
+- Update `style.css` for visual styling and responsive design
+- Replace assets in `assets/` directory to customize content
 
-## 🔧 Customization
+## 📱 Mobile Support
 
-### Adding New Programming Languages
-1. Add logo files to `assets/logos/`
-2. Update the `languages` array in `main.js`
-3. Position new language photos in the 3D space
+The portfolio includes mobile-optimized features:
+- **Touch Navigation**: Swipe and pinch gestures for camera control
+- **Gyroscope Integration**: Device orientation for immersive navigation
+- **Responsive Design**: Adaptive layout for different screen sizes
+- **Performance Optimization**: Efficient rendering for mobile devices
 
-### Modifying Skills
-- Edit the `softSkills` string in `main.js`
-- Adjust post-it note positioning and content
+## 🎯 Key Interactive Features
 
-### Changing Textures
-- Replace files in `assets/textures/`
-- Update material references in object files
+### Navigation
+- **Mouse Controls**: Click and drag to rotate view, scroll to zoom
+- **Touch Controls**: Pinch to zoom, swipe to rotate on mobile
+- **Gyroscope**: Tilt device for natural camera movement (mobile)
 
-## 📱 Browser Compatibility
+### Clickable Elements
+- **Social Media Links**: Direct navigation to LinkedIn and GitHub
+- **CV Downloads**: Instant download of resume in Portuguese or English
+- **Company Links**: Visit websites of previous employers
 
-- ✅ Chrome 80+
-- ✅ Firefox 75+
-- ✅ Safari 13+
-- ✅ Edge 80+
+### Visual Connections
+- **Pin-and-Rope System**: Visual relationships between content sections
+- **Color-Coded Elements**: Consistent visual hierarchy
+- **Realistic Physics**: Objects respond to interactions naturally
 
-## 🔮 Future Enhancements
+## 🌐 Browser Compatibility
 
-- [ ] Optimize texture file sizes for faster loading
-- [ ] Add animation transitions between portfolio sections
-- [ ] Include interactive project showcases
-- [ ] Add audio feedback for interactions
-- [ ] Mobile-responsive touch controls
+- **Chrome**: Full support (recommended)
+- **Firefox**: Full support
+- **Safari**: Full support
+- **Edge**: Full support
+- **Mobile Browsers**: Optimized support with touch/gyroscope controls
 
-## 📄 License
+## 🤝 Contact
 
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🤝 Contributing
-
-Feel free to fork this project and submit pull requests for improvements!
-
-## 📞 Contact
-
-Visit the live portfolio at [pedro-carlos.github.io](https://pedro-carlos.github.io) to explore the full 3D experience.
+**Pedro Carlos**
+- 📧 Email: pedrocarlos650@gmail.com
+- 💼 LinkedIn: [pedro-carlos-028417268](https://www.linkedin.com/in/pedro-carlos-028417268/)
+- 🐱 GitHub: [PedroCarlos-FCT](https://github.com/PedroCarlos-FCT) | [Pedro-Carlos](https://github.com/Pedro-Carlos)
 
 ---
 
-*Built with ❤️ and Babylon.js - Bringing portfolios into the third dimension*
+*Built with pleasure and creativity using Babylon.js*
